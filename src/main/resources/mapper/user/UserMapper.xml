@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haha.user.dao.UserMapper">
+
+    <resultMap id="userMap" type="com.haha.user.model.User">
+        <id column="id" property="id"  javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result column="nick_name" property="nickName"  javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result column="password_md5" property="passwordMd5" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result column="email" property="email" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result column="picture" property="picture" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        <result column="birthday" property="birthday" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result column="delete" property="delete" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="followerMap" type="com.haha.user.model.Follower">
+        <id column="id" property="id"  javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <id column="user_id" property="userId" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <id column="follower" property="follower" javaType="java.lang.Long" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <resultMap id="followingMap" type="com.haha.user.model.Following">
+        <id column="id" property="id"  javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <id column="user_id" property="userId" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <id column="following" property="following" javaType="java.lang.Long" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <insert id="create" parameterType="com.haha.user.model.User">
+        INSERT INTO t_user(id,nick_name,password_md5,email,picture,sex,birthday)
+        VALUES
+        (
+            #{id},#{nickName},#{passwordMd5},#{email},#{picture},#{sex},#{birthday}
+        )
+    </insert>
+
+    <select id="getUserById" parameterType="long" resultMap="userMap">
+        select
+        id,nick_name,password_md5,email,picture,sex,birthday,create_time,update_time,`delete`
+        from t_user where id = #{userId}
+    </select>
+
+    <select id="getUserList" parameterType="long" resultMap="userMap">
+        select
+        id,nick_name,password_md5,email,picture,sex,birthday,create_time,update_time,`delete`
+        from t_user limit 100
+    </select>
+
+    <select id="getUserListById" parameterType="long" resultMap="userMap">
+        select
+        id,nick_name,password_md5,email,picture,sex,birthday,create_time,update_time,`delete`
+        from t_user
+        where id in
+        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+    
+    <insert id="follower" parameterType="long">
+        insert into t_follower(id, user_id, follower)
+        values (#{id}, #{userId}, #{follower})
+    </insert>
+
+    <insert id="following" parameterType="long">
+        insert into t_following(id, user_id, following)
+        values (#{id}, #{userId}, #{following})
+    </insert>
+
+    <select id="getFollower" parameterType="long" resultMap="followerMap">
+        select
+        id, user_id, follower
+        from t_follower where id = #{userId}
+    </select>
+
+    <select id="getFollowing" parameterType="long" resultMap="followingMap">
+        select
+        id, user_id, following
+        from t_following where id = #{userId}
+    </select>
+
+</mapper>

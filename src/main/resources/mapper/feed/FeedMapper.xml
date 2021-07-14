@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haha.feed.dao.FeedMapper">
+
+    <resultMap id="feedMap" type="com.haha.feed.model.Feed">
+        <id column="id" property="id"  javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result column="content" property="content" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result column="picture_list" property="pictureList" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result column="media_link" property="mediaLink" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result column="delete" property="delete" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+
+    <insert id="createFeed" parameterType="com.haha.feed.model.Feed">
+        INSERT INTO t_feed(id,user_id,user_name,content,picture_list,media_link)
+        VALUES
+        (
+            #{id},#{userId},#{userName},#{content},#{pictureList},#{mediaLink}
+        )
+    </insert>
+
+    <select id="countFeedByUserId" parameterType="long" resultType="int">
+        select
+        count(*)
+        from t_feed where user_id = #{userId}
+    </select>
+
+    <select id="getFeedByUserId" parameterType="long" resultMap="feedMap">
+        select
+        id,user_id,user_name,content,picture_list,media_link,create_time
+        from t_feed
+        where user_id = #{userId}
+        limit #{skip},#{limit}
+    </select>
+
+    <delete id="deleteFeed" parameterType="long">
+        delete from t_feed where id = #{feedId}
+    </delete>
+
+
+</mapper>

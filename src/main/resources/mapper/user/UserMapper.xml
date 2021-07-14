@@ -17,14 +17,14 @@
 
     <resultMap id="followerMap" type="com.haha.user.model.Follower">
         <id column="id" property="id"  javaType="java.lang.Long" jdbcType="BIGINT"/>
-        <id column="user_id" property="userId" javaType="java.lang.Long" jdbcType="BIGINT"/>
-        <id column="follower" property="follower" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result column="follower" property="follower" javaType="java.lang.Long" jdbcType="BIGINT"/>
     </resultMap>
 
     <resultMap id="followingMap" type="com.haha.user.model.Following">
         <id column="id" property="id"  javaType="java.lang.Long" jdbcType="BIGINT"/>
-        <id column="user_id" property="userId" javaType="java.lang.Long" jdbcType="BIGINT"/>
-        <id column="following" property="following" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result column="following" property="following" javaType="java.lang.Long" jdbcType="BIGINT"/>
     </resultMap>
 
     <insert id="create" parameterType="com.haha.user.model.User">
@@ -70,13 +70,13 @@
     <select id="getFollower" parameterType="long" resultMap="followerMap">
         select
         id, user_id, follower
-        from t_follower where id = #{userId}
+        from t_follower where user_id = #{userId}
     </select>
 
     <select id="getFollowing" parameterType="long" resultMap="followingMap">
         select
         id, user_id, following
-        from t_following where id = #{userId}
+        from t_following where user_id = #{userId}
     </select>
 
 </mapper>

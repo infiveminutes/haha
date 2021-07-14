@@ -24,7 +24,7 @@ sharding:
     config:
       sharding:
         props:
-          sql.show: false
+          sql.show: true
         tables:
           t_user:
             key-generator-column-name: id
@@ -39,6 +39,19 @@ sharding:
               inline:
                 sharding-column: id
                 algorithm-expression: t_user
+
+          t_feed:
+            key-generator-column-name: id
+            key-generator-type: SNOWFLAKE
+            actual-data-nodes: ds0.t_feed
+            databaseStrategy:
+              inline:
+                sharding-column: id
+                algorithm-expression: ds0
+            table-strategy:
+              inline:
+                sharding-column: id
+                algorithm-expression: t_feed
 
           t_follower:
             key-generator-column-name: id

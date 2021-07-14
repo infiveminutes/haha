@@ -2,6 +2,8 @@ package com.example.demo;
 
 import com.example.demo.shardJdbcDemo.User;
 import com.haha.HahaApplication;
+import com.haha.feed.dao.FeedMapper;
+import com.haha.feed.model.Feed;
 import com.haha.user.dao.UserMapper;
 import com.haha.user.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,9 @@ public class DaoTest {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    FeedMapper feedMapper;
+
 //    @Resource
 //    IdGenerator idGenerator;
 
@@ -42,4 +47,18 @@ public class DaoTest {
         userService.follow(79089180946935820L, 79089179248242698L);
     }
 
+    @Test
+    public void getFollower() {
+        System.out.println(userService.getFollower(79089219194794063L));
+    }
+
+    @Test
+    public void feedTest() {
+        Feed feed = new Feed();
+        feed.setId(111L);
+        feed.setUserId(79089179248242698L);
+        feed.setUserName("梁鑫鹏");
+        feed.setContent("hello content");
+        feedMapper.createFeed(feed);
+    }
 }

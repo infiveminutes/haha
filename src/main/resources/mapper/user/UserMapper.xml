@@ -25,6 +25,7 @@
         <id column="id" property="id"  javaType="java.lang.Long" jdbcType="BIGINT"/>
         <result column="user_id" property="userId" javaType="java.lang.Long" jdbcType="BIGINT"/>
         <result column="following" property="following" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result column="last_read_spread_time" property="lastReadSpreadTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <insert id="create" parameterType="com.haha.user.model.User">
@@ -75,7 +76,7 @@
 
     <select id="getFollowing" parameterType="long" resultMap="followingMap">
         select
-        id, user_id, following
+        id, user_id, following, last_read_spread_time
         from t_following where user_id = #{userId}
     </select>
 

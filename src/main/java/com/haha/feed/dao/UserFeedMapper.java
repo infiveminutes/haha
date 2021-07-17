@@ -8,5 +8,6 @@ import java.util.List;
 
 @Mapper
 public interface UserFeedMapper {
+    int create(UserFeed userFeed);
     List<UserFeed> getUserFeedList(@Param("userId") Long userId, @Param("skip") Long skip, @Param("limit") Long limit);
 }

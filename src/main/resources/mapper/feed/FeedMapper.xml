@@ -35,11 +35,12 @@
         id,user_id,user_name,content,picture_list,media_link,create_time
         from t_feed
         where user_id = #{userId}
+        <if test="createTime != null">
+            and create_time > #{createTime}
+        </if>
         order by create_time desc
         limit #{skip},#{limit}
     </select>
-
-    getFeedListById
 
     <select id="getFeedListById" parameterType="long" resultMap="feedMap">
         select

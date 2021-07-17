@@ -81,6 +81,22 @@ sharding:
                 sharding-column: user_id
                 algorithm-expression: t_following${user_id % 8}
 
+
+          t_user_feed:
+            key-generator-column-name: id
+            key-generator-type: SNOWFLAKE
+            #            actual-data-nodes: ds${0..1}.t_user${0..7}
+            actual-data-nodes: ds0.t_user_feed0,ds0.t_user_feed2,ds0.t_user_feed4,ds0.t_user_feed6,ds1.t_user_feed1,ds1.t_user_feed3,ds1.t_user_feed5,ds1.t_user_feed7
+            databaseStrategy:
+              inline:
+                sharding-column: user_id
+                algorithm-expression: ds${user_id % 2}
+            table-strategy:
+              inline:
+                sharding-column: user_id
+                algorithm-expression: t_follower${user_id % 8}
+
+
 #          t_user:
 #            key-generator-column-name: id
 #            key-generator-type: SNOWFLAKE

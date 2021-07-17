@@ -7,6 +7,7 @@ import com.haha.feed.service.FeedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,9 +26,14 @@ public class FeedServiceImpl implements FeedService {
     }
 
     @Override
-    public List<Feed> getFeedListByUserId(Long userId, Long pageSize, Long pageNum) {
+    public List<Feed> getFeedListByUserId(Long userId, Long pageSize, Long pageNum, Date createTime) {
         Long skip = pageNum * pageSize;
-        return feedMapper.getFeedByUserId(userId, skip, pageSize);
+        return feedMapper.getFeedByUserId(userId, skip, pageSize, createTime);
+    }
+
+    @Override
+    public List<Feed> getFeedByIdList(List<Long> idList) {
+        return feedMapper.getFeedListById(idList);
     }
 
     private void writeSpread(Feed feed){

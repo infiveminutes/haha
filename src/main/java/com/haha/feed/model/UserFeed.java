@@ -8,6 +8,7 @@ import java.util.Date;
 @Data
 public class UserFeed extends BaseModel {
     private Long id;
+    private Long userId;
     private Long feedId;
     private Date feedCreateTime;
 }

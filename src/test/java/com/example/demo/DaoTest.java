@@ -15,6 +15,7 @@ import org.springframework.util.IdGenerator;
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = HahaApplication.class)
 @WebAppConfiguration
@@ -50,6 +51,12 @@ public class DaoTest {
     @Test
     public void getFollower() {
         System.out.println(userService.getFollower(79089219194794063L));
+    }
+
+    @Test
+    public void getFeed() {
+        List<Feed> feedList = feedMapper.getFeedByUserId(79089179248242698L, 0L, 100L, new Date());
+        System.out.println(feedList);
     }
 
     @Test

@@ -24,7 +24,7 @@ sharding:
     config:
       sharding:
         props:
-          sql.show: true
+          sql.show: false
         tables:
           t_user:
             key-generator-column-name: id
@@ -94,7 +94,7 @@ sharding:
             table-strategy:
               inline:
                 sharding-column: user_id
-                algorithm-expression: t_follower${user_id % 8}
+                algorithm-expression: t_user_feed${user_id % 8}
 
 
 #          t_user:

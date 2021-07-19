@@ -2,7 +2,11 @@
 social network demo
 
 ### feature
-
+- 删除消息
+- 登录
+- 转发
+- 评论
+- 私信
 
 ### todo
 - 添加日志

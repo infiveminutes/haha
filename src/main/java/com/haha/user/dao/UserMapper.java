@@ -18,6 +18,8 @@ public interface UserMapper {
     // 写入关注关系, 两个表分别为关注与被关注
     int follower(@Param("id") Long id, @Param("userId") Long userId, @Param("follower") Long follower);
     int following(@Param("id") Long id, @Param("userId") Long userId, @Param("following") Long following);
+
+    int updateFollowingReadTime(Following following);
     // 查询粉丝
     List<Follower> getFollower(@Param("userId") Long userId);
     // 查询正在关注的人

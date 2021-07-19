@@ -11,6 +11,7 @@ import com.haha.user.service.UserService;
 import com.haha.utils.IDGenService;
 import com.haha.utils.LogUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
@@ -19,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class UserFeedServiceImpl implements UserFeedService {
 
     @Autowired
@@ -42,21 +44,33 @@ public class UserFeedServiceImpl implements UserFeedService {
         List<Feed> feedList = new ArrayList<>();
         long skip = 0;
         long limit = 50;
+        long current = System.currentTimeMillis();
+        /*
+            如果getFeedByUserId方法执行的过程中，刚好有一条新的消息生成，因为事务原因没有查到
+            但是写入的LastReadSpreadTime却是更后的时间，如下图
+            上一次LastReadSpreadTime-----------(feed1)-------(feed2)------(feed3)|
+            --------------------------------------------------------------------NowReadSpreadTime
+            下一次查的时候就查不到这个feed3了
+            所以这个NowReadSpreadTime的取值应该更早一点，可以减掉一段时间，消除事务的影响
+        */
+        current -= 5000;
+        Date now = new Date(current);
         Date lastPeekTime = following.getLastReadSpreadTime();
         if(lastPeekTime == null) {
             lastPeekTime = new Date();
             lastPeekTime.setTime(1);
         }
-
         while(true) {
+
             List<Feed> temp = feedMapper.getFeedByUserId(following.getFollowing(), skip, limit, lastPeekTime);
             if(CollectionUtils.isEmpty(temp)) {
                 break;
             }else {
                 feedList.addAll(temp);
             }
+            skip += limit;
         }
-
+        following.setLastReadSpreadTime(now);
         for(Feed feed: feedList) {
             UserFeed userFeed = new UserFeed();
             userFeed.setFeedCreateTime(feed.getCreateTime());
@@ -64,8 +78,8 @@ public class UserFeedServiceImpl implements UserFeedService {
             userFeed.setUserId(userId);
             userFeed.setId(idGenService.getSnowFlakeId());
             userFeedMapper.create(userFeed);
+            userMapper.updateFollowingReadTime(following);
         }
-
         return 0;
     }
 

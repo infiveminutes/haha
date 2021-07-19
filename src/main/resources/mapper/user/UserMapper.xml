@@ -80,4 +80,14 @@
         from t_following where user_id = #{userId}
     </select>
 
+    <update id="updateFollowingReadTime" parameterType="com.haha.user.model.Following">
+        update t_following
+        <set>
+            <if test="lastReadSpreadTime != null">
+                last_read_spread_time = #{lastReadSpreadTime}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
 </mapper>

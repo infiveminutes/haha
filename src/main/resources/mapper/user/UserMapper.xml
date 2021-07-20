@@ -90,4 +90,10 @@
         where id = #{id}
     </update>
 
+    <select id="getUserByName" parameterType="java.lang.String" resultMap="userMap">
+        select
+        id,nick_name,password_md5,email,picture,sex,birthday,create_time,update_time,`delete`
+        from t_user where nick_name = #{userName}
+    </select>
+
 </mapper>

@@ -2,6 +2,7 @@ package com.example.demo.shardJdbcDemo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data

@@ -7,6 +7,9 @@ import com.haha.feed.model.Feed;
 import com.haha.user.dao.UserMapper;
 import com.haha.user.service.UserService;
 import org.junit.jupiter.api.Test;
+import org.redisson.api.RBucket;
+import org.redisson.api.RMap;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -16,6 +19,7 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = HahaApplication.class)
 @WebAppConfiguration
@@ -29,6 +33,9 @@ public class DaoTest {
 
     @Autowired
     FeedMapper feedMapper;
+
+    @Autowired
+    RedissonClient redisCli;
 
 //    @Resource
 //    IdGenerator idGenerator;
@@ -67,5 +74,16 @@ public class DaoTest {
         feed.setUserName("梁鑫鹏");
         feed.setContent("hello content");
         feedMapper.createFeed(feed);
+    }
+
+    @Test
+    public void findByName() {
+        System.out.println(userMapper.getUserByName("陆弘文"));
+    }
+
+    @Test
+    public void redisTest() {
+        RBucket<String> aaa = redisCli.getBucket("user:a");
+        aaa.set("hello", 10, TimeUnit.SECONDS);
     }
 }

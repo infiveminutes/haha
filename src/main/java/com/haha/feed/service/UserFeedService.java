@@ -16,5 +16,6 @@ public interface UserFeedService {
 
     int peekFollowing(Long userId);
 
+    // 获取一个人的时间线
     List<Feed> getUserFeedList(Long userId, Long pageSize, Long pageNum);
 }

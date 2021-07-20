@@ -25,4 +25,6 @@ public interface UserMapper {
     // 查询正在关注的人
     List<Following> getFollowing(@Param("userId") Long userId);
 
+    User getUserByName(String userName);
+
 }

@@ -1,25 +1,20 @@
 package com.example.demo;
 
-import com.example.demo.shardJdbcDemo.User;
+
 import com.haha.HahaApplication;
 import com.haha.feed.dao.FeedMapper;
 import com.haha.feed.model.Feed;
 import com.haha.user.dao.UserMapper;
 import com.haha.user.service.UserService;
 import org.junit.jupiter.api.Test;
-import org.redisson.api.RBucket;
-import org.redisson.api.RMap;
-import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.util.IdGenerator;
 
-import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = HahaApplication.class)
 @WebAppConfiguration
@@ -35,7 +30,7 @@ public class DaoTest {
     FeedMapper feedMapper;
 
     @Autowired
-    RedissonClient redisCli;
+    RedisTemplate<String, String> redisTemplate;
 
 //    @Resource
 //    IdGenerator idGenerator;
@@ -83,7 +78,7 @@ public class DaoTest {
 
     @Test
     public void redisTest() {
-        RBucket<String> aaa = redisCli.getBucket("user:a");
-        aaa.set("hello", 10, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set("hello", "world");
+        System.out.println(redisTemplate.opsForValue().get("hello"));
     }
 }

@@ -6,6 +6,7 @@ import com.haha.feed.model.Feed;
 import com.haha.feed.service.FeedService;
 import com.haha.feed.service.UserFeedService;
 import com.haha.user.model.User;
+import com.haha.user.service.LoginService;
 import com.haha.user.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class ServiceTest {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    LoginService loginService;
 
     private Long userId = 79089185799745556L;
 
@@ -72,6 +76,13 @@ public class ServiceTest {
         feed.setUserId(userId);
         feed.setContent(faker.howIMetYourMother().catchPhrase());
         return feed;
+    }
+
+    @Test
+    public void loginServiceTest() {
+//        User user = userService.findUserById(79089181471223821L);
+//        System.out.println(loginService.signIn(user));
+        System.out.println(loginService.getUser("login:55ea7ae02c7b463691b28ed2923113e5"));
     }
 
 }

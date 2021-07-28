@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class PageParam {
-    private int pageSize;
-    private int pageNum;
+public class BaseParam {
+    private Integer pageSize;
+    private Integer pageNum;
+    private String token;
 }

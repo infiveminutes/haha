@@ -31,6 +31,13 @@ public class BaseResult<T> {
         this.data = data;
     }
 
+
+    public static final BaseResult SUCCESS = createSuccess("成功");
+
+    public static final BaseResult SYSTEM_ERROR = createError("系统错误, 请稍后再试");
+
+
+
     public static BaseResult createError(String msg) {
         BaseResult baseResult = new BaseResult();
         baseResult.setCode(ReturnCode.fail);

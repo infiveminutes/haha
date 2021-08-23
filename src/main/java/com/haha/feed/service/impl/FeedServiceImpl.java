@@ -51,7 +51,7 @@ public class FeedServiceImpl implements FeedService {
 
     @Override
     public List<Feed> getFeedListByUserId(Long userId, Long pageSize, Long pageNum, Date createTime) {
-        Long skip = pageNum * pageSize;
+        Long skip = (pageNum-1) * pageSize;
         return feedMapper.getFeedByUserId(userId, skip, pageSize, createTime);
     }
 
